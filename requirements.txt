@@ -1,5 +1,3 @@
 streamlit
 pandas
-sklearn.feature_extraction.text
-sklearn.model_selection
-sklearn.naive_bayes
+sklearn
