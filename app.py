@@ -1,7 +1,6 @@
 import pickle
 import streamlit as st
 import sys
-from streamlit_option_menu import option_menu
 import json 
 
 model = pickle.load(open("spam.pkl","rb"))
