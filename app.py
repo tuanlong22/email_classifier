@@ -1,10 +1,10 @@
 import pickle
 import streamlit as st
 import sys
-sys.path.insert(1,"C:\Users\admin\AppData\Local\Programs\Python\Python311\Lib\site-packages\streamlit_option_menu")
 from streamlit_option_menu import option_menu
 import json 
 
+sys.path.insert(1,"C:\Users\admin\AppData\Local\Programs\Python\Python311\Lib\site-packages\streamlit_option_menu")
 model = pickle.load(open("spam.pkl","rb"))
 cv = pickle.load(open("vectorizer.pkl","rb"))
 
