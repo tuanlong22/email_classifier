@@ -14,7 +14,7 @@ def main():
     st.title("Hệ thống nhận diện Spam Email :envelope_with_arrow:")
     st.sidebar.success("Select a page above.")
     st.subheader("Thực hiện bởi nhóm 6 :two_hearts:")
-    msg = st.text_input("Enter a Text:")
+    msg = st.text_input("Nhập nội dung mail:")
     if st.button("Dự đoán"):
         data = [msg]
         vect = cv.transform(data).toarray()
