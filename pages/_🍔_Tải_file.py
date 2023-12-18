@@ -24,9 +24,9 @@ def detect_spam(emails):
 
 def main():
     st.title("Hệ thống nhận diện Spam Email :envelope_with_arrow:")
-    st.sidebar.success("Welcome to the Spam Email Detector App!")
+    st.sidebar.success("Chào mừng đến với hệ thống nhận diện spam!")
 
-    st.subheader("Detect Spam Emails from JSON File")
+    st.subheader("Nhận diện thư rác từ JSON File")
     uploaded_file = st.file_uploader("Upload a JSON file", type=["json"])
 
     if uploaded_file is not None:
