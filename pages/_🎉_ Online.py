@@ -1,28 +1,47 @@
-import pickle
 import streamlit as st
-import sys
-import json 
+import socket
+import threading
+import json
 
-model = pickle.load(open("spam.pkl","rb"))
-cv = pickle.load(open("vectorizer.pkl","rb"))
+# Constants
+SERVER_HOST = '0.0.0.0'
+SERVER_PORT = 5555
 
-st.set_page_config(
-    page_title="Spam Email Detector App",
-    page_icon="📫",
-)
+received_messages = []
+
+def receive_messages():
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.bind((SERVER_HOST, SERVER_PORT))
+    server_socket.listen(5)
+    st.write(f"Server is listening on {SERVER_HOST}:{SERVER_PORT}")
+
+    while True:
+        client, addr = server_socket.accept()
+        threading.Thread(target=handle_client, args=(client,)).start()
+
+def handle_client(client):
+    while True:
+        data = client.recv(1024)
+        if not data:
+            break
+        message = data.decode('utf-8')
+        st.write(f"Received message: {message}")
+        received_messages.append(message)
+
+    client.close()
+
 def main():
-    st.title("Hệ thống nhận diện Spam Email :envelope_with_arrow:")
-    st.sidebar.success("Select a page above.")
-    st.subheader("Thực hiện bởi nhóm 6 :two_hearts:")
-    msg = st.text_input("Enter a Text:")
-    if st.button("Dự đoán"):
-        data = [msg]
-        vect = cv.transform(data).toarray()
-        prediction = model.predict(vect)
-        result = prediction[0]
-        if result == 1:
-            st.error("Đây là Spam Mail :outbox_tray:")
-        else:
-            st.success("Đây không phải là spam mail :incoming_envelope:")
+    st.title("Gmail Server")
 
-main()
+    # Start a separate thread to receive messages
+    threading.Thread(target=receive_messages).start()
+
+    # Display the received messages in the Streamlit UI
+    st.subheader("Received Messages")
+    for i, message in enumerate(received_messages, 1):
+        st.write(f"{i}. {message}")
+
+if __name__ == "__main__":
+    main()
+
+
